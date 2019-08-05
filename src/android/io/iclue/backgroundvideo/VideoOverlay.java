@@ -104,7 +104,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             mRecorder.setCamera(mCamera);
 
             CamcorderProfile profile;
-            profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_480P);
+            profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_QVGA);
             Camera.Size lowestRes = CameraHelper.getLowestResolution(cameraParameters);
             Log.d(TAG, "getLowestResolution: " + lowestRes.width + "x" + lowestRes.height);
             profile.videoFrameWidth = lowestRes.width;
