@@ -26,7 +26,7 @@ class CameraHelper {
         if (sl == null)
             sl = cp.getSupportedPictureSizes();
 
-        Camera.Size small = sl.get(1);      
+        Camera.Size small = sl.get(0);      
 
         return small;
     }
