@@ -104,7 +104,11 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             mRecorder.setCamera(mCamera);
 
             CamcorderProfile profile;
-            profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
+            if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_LOW)) {	            profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH);
+                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);	
+            } else {	
+                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH);	
+            }            
             Camera.Size lowestRes = CameraHelper.getLowestResolution(cameraParameters);
             Log.d(TAG, "getLowestResolution: " + lowestRes.width + "x" + lowestRes.height);
             profile.videoFrameWidth = lowestRes.width;
@@ -112,11 +116,12 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             Log.d(TAG, profile.videoFrameWidth + "x" + profile.videoFrameHeight);
 
             mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+            mRecordAudio = false;
             if (mRecordAudio) {
                 // With audio
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
             }
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mRecorder.setVideoEncodingBitRate(videoBitrate);
             mRecorder.setVideoFrameRate(profile.videoFrameRate);
             mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
             mRecorder.setVideoEncodingBitRate(1024);
