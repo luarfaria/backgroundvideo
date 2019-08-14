@@ -161,6 +161,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             } catch (Exception e) {
                 //This can occur when the camera failed to start and then stop is called
                 Log.e(TAG, "Could not stop recording.", e);
+                throw e;
             }
         }
 
