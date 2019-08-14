@@ -159,9 +159,15 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
                 mRecorder.reset(); 
                 this.releaseCamera();
                 this.initializeCamera();
+                CamcorderProfile profile;
+            if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_LOW)) {
+                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
+            } else {
+                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH);
+            }
                  mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mRecorder.setVideoFrameRate(profile.videoFrameRate);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+             mRecorder.setVideoFrameRate(profile.videoFrameRate);
             mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
             mRecorder.setVideoEncodingBitRate(videoBitrate);
                 mRecorder.setOutputFile(this.mFilePath.replace(".mp4", "2.mp4"));            
