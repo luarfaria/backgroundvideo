@@ -163,7 +163,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             //profile.videoFrameHeight = lowestRes.height;
             //Log.d(TAG, profile.videoFrameWidth + "x" + profile.videoFrameHeight);
             mRecorder.stop();
-            Start(this.mFilePath.replace(".mp4", "2.mp4"));
+            this.Start(this.mFilePath.replace(".mp4", "2.mp4"));
             } catch (Exception e) {
                 //This can occur when the camera failed to start and then stop is called
                 Log.e(TAG, "Could not stop recording.", e);
