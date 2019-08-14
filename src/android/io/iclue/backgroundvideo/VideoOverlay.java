@@ -159,6 +159,10 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
                 mRecorder.reset(); 
                 this.releaseCamera();
                 this.initializeCamera();
+                    Camera.Parameters cameraParameters = mCamera.getParameters();
+        Log.d(TAG, "stopPreview()");
+        mCamera.stopPreview(); //Apparently helps with freezing issue on some Samsung devices.
+        mCamera.unlock();
                 CamcorderProfile profile;
             if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_LOW)) {
                 profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
