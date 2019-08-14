@@ -156,13 +156,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         if (mRecorder != null) {
             MediaRecorder tempRecorder = mRecorder;
             mRecorder = null;
-            try {
-                tempRecorder.stop();
-            } catch (Exception e) {
-                //This can occur when the camera failed to start and then stop is called
-                Log.e(TAG, "Could not stop recording.", e);
-                throw e;
-            }
+            tempRecorder.stop();
         }
 
         this.releaseCamera();
