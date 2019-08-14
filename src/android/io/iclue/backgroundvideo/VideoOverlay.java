@@ -73,7 +73,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             this.mFilePath = filePath;
         }
         Log.d(TAG, "attachView()");
-        //attachView();
+        attachView();
 
         if (this.mRecordingState == RecordingState.INITIALIZING) {
             Log.d(TAG, "mRecordingState == RecordingState.INITIALIZING : return");
