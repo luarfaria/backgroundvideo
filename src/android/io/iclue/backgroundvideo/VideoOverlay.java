@@ -150,7 +150,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         }
     }
 
-    public String Stop() throws IOException {
+    public String Stop() throws IOException, Exception {
         Log.d(TAG, "stopRecording called");
 
         if (mRecorder != null) {
@@ -166,7 +166,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
         this.releaseCamera();
         this.detachView();
-        Start(this.mFilePath.replace(".mp4", "3.mp4"));
+        Start(this.mFilePath.replace(".mp4", "2.mp4"));
         return this.mFilePath;
     }
 
