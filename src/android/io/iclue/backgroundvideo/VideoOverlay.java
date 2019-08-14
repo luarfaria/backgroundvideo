@@ -158,7 +158,8 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             //mRecorder = null;
             try {
                 mRecorder.stop();
-                mRecorder.setOutputFile(this.mFilePath + "2");            
+                mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+                mRecorder.setOutputFile(this.mFilePath.replace(".mp4", "2.mp4"));            
                 mRecorder.prepare();
                 Log.d(TAG, "Starting recording");
                 mRecorder.start();
