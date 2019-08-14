@@ -157,37 +157,13 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             //MediaRecorder tempRecorder = mRecorder;
             //mRecorder = null;
             try {
-                mRecorder.stop();
-                mRecorder.reset(); 
-            mCamera.setPreviewCallback(null);
-            mCamera.stopPreview();
-            mCamera.lock();
-            mCamera.release();
-            mCamera = null;
-            mCameraId = CameraHelper.NO_CAMERA;
-            initializeCamera();
-                  CamcorderProfile profile;
-            if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_LOW)) {
-                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
-            } else {
-                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH);
-            }
-
             //Camera.Size lowestRes = CameraHelper.getLowestResolution(cameraParameters);
             //Log.d(TAG, "getLowestResolution: " + lowestRes.width + "x" + lowestRes.height);
             //profile.videoFrameWidth = lowestRes.width;
             //profile.videoFrameHeight = lowestRes.height;
             //Log.d(TAG, profile.videoFrameWidth + "x" + profile.videoFrameHeight);
-
-            mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mRecorder.setVideoFrameRate(profile.videoFrameRate);
-            mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
-            mRecorder.setVideoEncodingBitRate(videoBitrate);
-                mRecorder.setOutputFile(this.mFilePath.replace(".mp4", "2.mp4"));            
-                mRecorder.prepare();
-                Log.d(TAG, "Starting recording");
-                mRecorder.start();
+            mRecorder.stop();
+            Start(this.mFilePath.replace(".mp4", "2.mp4"));
             } catch (Exception e) {
                 //This can occur when the camera failed to start and then stop is called
                 Log.e(TAG, "Could not stop recording.", e);
