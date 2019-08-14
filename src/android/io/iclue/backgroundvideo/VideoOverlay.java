@@ -166,7 +166,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
         this.releaseCamera();
         this.detachView();
-        this.Start(this.mFilePath.replace(".mp4", "3.mp4"));
+        Start(this.mFilePath.replace(".mp4", "3.mp4"));
         return this.mFilePath;
     }
 
