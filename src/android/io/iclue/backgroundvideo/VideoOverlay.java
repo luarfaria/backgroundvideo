@@ -165,14 +165,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         }
 
         this.releaseCamera();
-        this.detachView();
-         try {
-                Start(this.mFilePath.replace(".mp4", "2.mp4"));
-            } catch (Exception e) {
-                //This can occur when the camera failed to start and then stop is called
-                Log.e(TAG, "Could not start recording.", e);
-            }
-
+        this.detachView();        
         return this.mFilePath;
     }
 
