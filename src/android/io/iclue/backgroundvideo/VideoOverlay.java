@@ -158,7 +158,25 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             //mRecorder = null;
             try {
                 mRecorder.stop();
-                mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+                mRecorder.reset(); 
+                  CamcorderProfile profile;
+            if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_LOW)) {
+                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
+            } else {
+                profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH);
+            }
+
+            Camera.Size lowestRes = CameraHelper.getLowestResolution(cameraParameters);
+            Log.d(TAG, "getLowestResolution: " + lowestRes.width + "x" + lowestRes.height);
+            profile.videoFrameWidth = lowestRes.width;
+            profile.videoFrameHeight = lowestRes.height;
+            Log.d(TAG, profile.videoFrameWidth + "x" + profile.videoFrameHeight);
+
+            mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mRecorder.setVideoFrameRate(profile.videoFrameRate);
+            mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
+            mRecorder.setVideoEncodingBitRate(videoBitrate);
                 mRecorder.setOutputFile(this.mFilePath.replace(".mp4", "2.mp4"));            
                 mRecorder.prepare();
                 Log.d(TAG, "Starting recording");
