@@ -150,7 +150,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         }
     }
 
-    public String Stop() throws IOException {
+    public String Stop() throws Exception {
         Log.d(TAG, "stopRecording called");
 
         if (mRecorder != null) {
