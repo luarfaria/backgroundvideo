@@ -150,21 +150,35 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         }
     }
 
-    public String Stop() {
+     public String Stop() throws IOException {
         Log.d(TAG, "stopRecording called");
 
-        if (mRecorder != null) {
-            MediaRecorder tempRecorder = mRecorder;
-            mRecorder = null;
-            tempRecorder.stop();
+        if (mRecorder != null) {            
+            try {
+                mRecorder.stop();
+                mRecorder.reset(); 
+                this.releaseCamera();
+                this.initializeCamera();
+                 mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mRecorder.setVideoFrameRate(profile.videoFrameRate);
+            mRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
+            mRecorder.setVideoEncodingBitRate(videoBitrate);
+                mRecorder.setOutputFile(this.mFilePath.replace(".mp4", "2.mp4"));            
+                mRecorder.prepare();
+                Log.d(TAG, "Starting recording");
+                mRecorder.start();
+            } catch (Exception e) {
+                //This can occur when the camera failed to start and then stop is called
+                Log.e(TAG, "Could not stop recording.", e);
+            }
         }
 
-        this.releaseCamera();
-        this.detachView();
-        this.Start(this.mFilePath.replace(".mp4", "2.mp4"));
+
+        //this.detachView();
+
         return this.mFilePath;
     }
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int numChildren = getChildCount();
@@ -214,18 +228,18 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
     private void releaseCamera() {
         Log.d(TAG, "releaseCamera()");
-        if (mRecorder != null) {
-            mRecorder.reset();
-            mRecorder.release();
-            mRecorder = null;
-        }
+        //if (mRecorder != null) {
+          //  mRecorder.reset();
+            //mRecorder.release();
+            //mRecorder = null;
+        //}
         if (mCamera != null) {
-            mCamera.setPreviewCallback(null);
+           // mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             mCamera.lock();
             mCamera.release();
-            mCamera = null;
-            mCameraId = CameraHelper.NO_CAMERA;
+            //mCamera = null;
+            //mCameraId = CameraHelper.NO_CAMERA;
         }
         this.mRecordingState = RecordingState.STOPPED;
         Log.d(TAG, "mRecordingState: " + mRecordingState);
