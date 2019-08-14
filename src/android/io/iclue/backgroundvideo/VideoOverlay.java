@@ -159,6 +159,13 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             try {
                 mRecorder.stop();
                 mRecorder.reset(); 
+            mCamera.setPreviewCallback(null);
+            mCamera.stopPreview();
+            mCamera.lock();
+            mCamera.release();
+            mCamera = null;
+            mCameraId = CameraHelper.NO_CAMERA;
+            initializeCamera();
                   CamcorderProfile profile;
             if (CamcorderProfile.hasProfile(mCameraId, CamcorderProfile.QUALITY_LOW)) {
                 profile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_LOW);
