@@ -253,8 +253,6 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         if (!mPreviewAttached && mPreview != null) {
             Log.d(TAG, "addView(mPreview)");
             this.addView(mPreview);
-            this.addView(sView);
-            mHolder = sView.getHolder();
             this.mPreviewAttached = true;
             Log.d(TAG, "attachView() attached");
         }
