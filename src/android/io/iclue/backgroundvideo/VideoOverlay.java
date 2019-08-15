@@ -285,13 +285,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             } catch (IOException e) {
                 Log.e(TAG, "Unable to attach preview to camera!", e);
             }
-            Log.d(TAG, "startPreview");         
-            try{
-                mCamera.setPreviewDisplay(mHolder);
-            }
-            catch(Exception e)
-            {
-            }
+            Log.d(TAG, "startPreview");                    
 			mCamera.startPreview();
         } else {
             if (mCamera == null) {
@@ -327,17 +321,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-      
-    }
-    public void surfaceCreated(SurfaceHolder holder) {
-		if (mCamera == null) {
-			return;
-		}
-		// The Surface has been created, now tell the camera where to draw the
-		// preview
-	}
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        mCamera.setPreviewCallback(new PreviewCallback() {
+      mCamera.setPreviewCallback(new PreviewCallback() {
 
 			@Override
 			public void onPreviewFrame(byte[] data, Camera camera) {
@@ -372,6 +356,16 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 			}
 
 		});
+    }
+    public void surfaceCreated(SurfaceHolder holder) {
+		if (mCamera == null) {
+			return;
+		}
+		// The Surface has been created, now tell the camera where to draw the
+		// preview
+	}
+    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+        
     }
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
