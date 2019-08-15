@@ -347,6 +347,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        i++;
           Bitmap bitmap = mPreview.getBitmap();
 
     int width = bitmap.getWidth();
