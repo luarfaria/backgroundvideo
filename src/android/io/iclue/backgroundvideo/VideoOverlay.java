@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.hardware.Camera.PreviewCallback;
 import android.graphics.YuvImage;
 import java.io.IOException;
-import android.graphics.ImageFormat
+import android.graphics.ImageFormat;
 
 @SuppressWarnings("deprecation")
 public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener {
