@@ -31,6 +31,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
     private int mOrientation;
     private int videoBitrate;
     private int audioBitrate;
+    private int i = 0;
 
     public VideoOverlay(Context context) {
         super(context);
@@ -254,8 +255,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             this.mRecordingState = RecordingState.INITIALIZING;
             Log.d(TAG, "mRecordingState: " + mRecordingState);
         }
-    }
-    int i = 0;
+    }    
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         Log.d(TAG, "Creating Texture Created");
