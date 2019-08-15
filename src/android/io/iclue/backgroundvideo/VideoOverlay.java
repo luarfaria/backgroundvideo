@@ -331,12 +331,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 			return;
 		}
 		// The Surface has been created, now tell the camera where to draw the
-		// preview.
-		try {
-
-		} catch (IOException e) {
-			Log.d(TAG, "Error setting camera preview: " + e.getMessage());
-		}
+		// preview
 	}
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         mCamera.setPreviewCallback(new PreviewCallback() {
