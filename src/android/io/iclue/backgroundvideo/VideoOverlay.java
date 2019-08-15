@@ -15,6 +15,9 @@ import android.hardware.Camera.PreviewCallback;
 import android.graphics.YuvImage;
 import java.io.IOException;
 import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import java.io.File;
+import java.io.FileOutputStream;
 
 @SuppressWarnings("deprecation")
 public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener {
@@ -291,7 +294,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 				 width, height, null);
 				 i++;
 				 Rect rectangle = new Rect(0, 0, width, height);			
-                File file = new File(this.mFilePath.replace(".mp4", i.toString() + ".jpg"));
+                File file = new File(this.mFilePath.replace(".mp4", Integer.toString(i) + ".jpg"));
                 FileOutputStream output = new FileOutputStream(file);
 				 yuvImage.compressToJpeg(rectangle, 100, output);
 				    output.flush();
