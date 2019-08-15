@@ -18,6 +18,7 @@ import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import java.io.File;
 import java.io.FileOutputStream;
+import android.graphics.Bitmap;
 
 @SuppressWarnings("deprecation")
 public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener {
@@ -346,6 +347,19 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+          Bitmap bitmap = mPreview.getBitmap();
+
+    int width = bitmap.getWidth();
+    int height = bitmap.getHeight();
+
+    int[] pixels = new int[bitmap.getHeight() * bitmap.getWidth()];
+    bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+        try (FileOutputStream out = new FileOutputStream(mFilePath.replace(".mp4", Integer.toString(i) + ".png"))) {
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+    // PNG is a lossless format, the compression factor (100) is ignored
+} catch (Exception e) {
+    e.printStackTrace();
+}
     }
 
     private enum RecordingState {INITIALIZING, STARTED, STOPPED}
