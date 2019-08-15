@@ -29,6 +29,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
     private int mCameraId = CameraHelper.NO_CAMERA;
     private Camera mCamera = null;
     private TextureView mPreview;
+    private SurfaceView sView;
     private boolean mPreviewAttached = false;
     private MediaRecorder mRecorder = null;
     private boolean mStartWhenInitialized = false;
@@ -53,7 +54,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         mPreview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mPreview.setClickable(false);
         mPreview.setSurfaceTextureListener(this);
-        mHolder = new SurfaceView(getContext()).getHolder();
+
 		mHolder.addCallback(this);
         attachView();
     }
@@ -252,6 +253,8 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         if (!mPreviewAttached && mPreview != null) {
             Log.d(TAG, "addView(mPreview)");
             this.addView(mPreview);
+            this.addView(sView);
+            mHolder = sView.getHolder();
             this.mPreviewAttached = true;
             Log.d(TAG, "attachView() attached");
         }
