@@ -19,9 +19,10 @@ import android.graphics.Rect;
 import java.io.File;
 import java.io.FileOutputStream;
 import android.graphics.Bitmap;
+import android.view.SurfaceHolder;
 
 @SuppressWarnings("deprecation")
-public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener {
+public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener, SurfaceHolder.Callback {
     private static final String TAG = "BACKGROUND_VID_OVERLAY";
     private RecordingState mRecordingState = RecordingState.INITIALIZING;
     private int mCameraId = CameraHelper.NO_CAMERA;
@@ -30,6 +31,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
     private boolean mPreviewAttached = false;
     private MediaRecorder mRecorder = null;
     private boolean mStartWhenInitialized = false;
+    private SurfaceHolder mHolder;
 
     private String mFilePath;
     private boolean mRecordAudio = true;
@@ -50,6 +52,8 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         mPreview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mPreview.setClickable(false);
         mPreview.setSurfaceTextureListener(this);
+        mHolder = getHolder();
+		mHolder.addCallback(this);
         attachView();
     }
 
@@ -273,41 +277,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             try {
                 Log.d(TAG, "setPreviewTexture");
                 mCamera.setPreviewTexture(surface);       
-                mCamera.setPreviewCallback(new PreviewCallback() {
-
-			@Override
-			public void onPreviewFrame(byte[] data, Camera camera) {
-
-				// ***The parameter 'data' holds the frame information***				
-				  int width = 0; int height = 0;
-				 
-				 Camera.Parameters parameters = camera.getParameters();
-				 
-				 height = parameters.getPreviewSize().height;
-				 
-				 width = parameters.getPreviewSize().width;
-				 
-
-				// ****You can change formats, save the data
-				// to file etc.*****
-				
-				 YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,
-				 width, height, null);
-				 i++;
-				 Rect rectangle = new Rect(0, 0, width, height);	
-                try{
-                File file = new File(mFilePath.replace(".mp4", Integer.toString(i) + ".jpg"));
-                FileOutputStream output = new FileOutputStream(file);
-				 yuvImage.compressToJpeg(rectangle, 100, output);
-				    output.flush();
-                  output.close();
-                }
-                catch (Exception e){
-                     Log.e(TAG, "Unable to attach preview to camera!", e);
-                }
-			}
-
-		});
+                
             } catch (IOException e) {
                 Log.e(TAG, "Unable to attach preview to camera!", e);
             }
@@ -347,21 +317,62 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-        i++;
-          Bitmap bitmap = mPreview.getBitmap();
-
-    int width = bitmap.getWidth();
-    int height = bitmap.getHeight();
-
-    int[] pixels = new int[bitmap.getHeight() * bitmap.getWidth()];
-    bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-        try (FileOutputStream out = new FileOutputStream(mFilePath.replace(".mp4", Integer.toString(i) + ".png"))) {
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-    // PNG is a lossless format, the compression factor (100) is ignored
-} catch (Exception e) {
-    e.printStackTrace();
-}
+      
     }
+    public void surfaceCreated(SurfaceHolder holder) {
+		if (mCamera == null) {
+			return;
+		}
+		// The Surface has been created, now tell the camera where to draw the
+		// preview.
+		try {
+			mCamera.setPreviewDisplay(holder);
+			mCamera.startPreview();
+		} catch (IOException e) {
+			Log.d(TAG, "Error setting camera preview: " + e.getMessage());
+		}
+	}
+    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+        mCamera.setPreviewCallback(new PreviewCallback() {
+
+			@Override
+			public void onPreviewFrame(byte[] data, Camera camera) {
+
+				// ***The parameter 'data' holds the frame information***				
+				  int width = 0; int height = 0;
+				 
+				 Camera.Parameters parameters = camera.getParameters();
+				 
+				 height = parameters.getPreviewSize().height;
+				 
+				 width = parameters.getPreviewSize().width;
+				 
+
+				// ****You can change formats, save the data
+				// to file etc.*****
+				
+				 YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,
+				 width, height, null);
+				 i++;
+				 Rect rectangle = new Rect(0, 0, width, height);	
+                try{
+                File file = new File(mFilePath.replace(".mp4", Integer.toString(i) + ".jpg"));
+                FileOutputStream output = new FileOutputStream(file);
+				 yuvImage.compressToJpeg(rectangle, 100, output);
+				    output.flush();
+                  output.close();
+                }
+                catch (Exception e){
+                     Log.e(TAG, "Unable to attach preview to camera!", e);
+                }
+			}
+
+		});
+    }
+
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		// empty. Take care of releasing the Camera preview in your activity.        
+	}
 
     private enum RecordingState {INITIALIZING, STARTED, STOPPED}
 }
