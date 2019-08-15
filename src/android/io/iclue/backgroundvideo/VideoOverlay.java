@@ -285,15 +285,15 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 				// ****You can change formats, save the data
 				// to file etc.*****
 				
-				 YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,
-				 width, height, null);
-				 i++;
-				 Rect rectangle = new Rect(0, 0, width, height);			
-                File file = new File(this.mFilePath.replace(".mp4", i.toString() + ".jpg"));
-                FileOutputStream output = new FileOutputStream(file);
-				 yuvImage.compressToJpeg(rectangle, 100, output);
-				    output.flush();
-                  output.close();
+				 //YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,
+				 //width, height, null);
+				 //i++;
+				 //Rect rectangle = new Rect(0, 0, width, height);			
+                //File file = new File(this.mFilePath.replace(".mp4", i.toString() + ".jpg"));
+                //FileOutputStream output = new FileOutputStream(file);
+				 //yuvImage.compressToJpeg(rectangle, 100, output);
+				    //output.flush();
+                  //output.close();
 			}
 
 		});
