@@ -269,17 +269,17 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
                 mCamera.setPreviewTexture(surface);
                  mCamera.setPreviewCallback(new PreviewCallback() {
 
-			@Override
-			public void onPreviewFrame(byte[] data, Camera camera) {
+			//@Override
+			//public void onPreviewFrame(byte[] data, Camera camera) {
 
 				// ***The parameter 'data' holds the frame information***				
-				  int width = 0; int height = 0;
+			//	  int width = 0; int height = 0;
 				 
-				 Camera.Parameters parameters = camera.getParameters();
+			//	 Camera.Parameters parameters = camera.getParameters();
 				 
-				 height = parameters.getPreviewSize().height;
+			//	 height = parameters.getPreviewSize().height;
 				 
-				 width = parameters.getPreviewSize().width;
+			//	 width = parameters.getPreviewSize().width;
 				 
 
 				// ****You can change formats, save the data
@@ -294,7 +294,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 				 //yuvImage.compressToJpeg(rectangle, 100, output);
 				    //output.flush();
                   //output.close();
-			}
+			//}
 
 		});
             } catch (IOException e) {
