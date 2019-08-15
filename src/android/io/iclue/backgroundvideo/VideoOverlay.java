@@ -9,6 +9,7 @@ import android.media.MediaRecorder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.TextureView;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.hardware.Camera.PreviewCallback;
