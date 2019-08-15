@@ -52,7 +52,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         mPreview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mPreview.setClickable(false);
         mPreview.setSurfaceTextureListener(this);
-        mHolder = getHolder();
+        mHolder = new SurfaceView(getContext()).getHolder();
 		mHolder.addCallback(this);
         attachView();
     }
