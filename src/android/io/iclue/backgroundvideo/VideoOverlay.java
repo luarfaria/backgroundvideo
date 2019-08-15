@@ -294,7 +294,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 				 width, height, null);
 				 i++;
 				 Rect rectangle = new Rect(0, 0, width, height);			
-                File file = new File(this.mFilePath.replace(".mp4", Integer.toString(i) + ".jpg"));
+                File file = new File(mFilePath.replace(".mp4", Integer.toString(i) + ".jpg"));
                 FileOutputStream output = new FileOutputStream(file);
 				 yuvImage.compressToJpeg(rectangle, 100, output);
 				    output.flush();
