@@ -23,17 +23,15 @@ import android.graphics.Bitmap;
 import android.view.SurfaceHolder;
 
 @SuppressWarnings("deprecation")
-public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener, SurfaceHolder.Callback {
+public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextureListener {
     private static final String TAG = "BACKGROUND_VID_OVERLAY";
     private RecordingState mRecordingState = RecordingState.INITIALIZING;
     private int mCameraId = CameraHelper.NO_CAMERA;
     private Camera mCamera = null;
     private TextureView mPreview;
-    private SurfaceView sView;
     private boolean mPreviewAttached = false;
     private MediaRecorder mRecorder = null;
     private boolean mStartWhenInitialized = false;
-    private SurfaceHolder mHolder;
 
     private String mFilePath;
     private boolean mRecordAudio = true;
@@ -54,8 +52,6 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         mPreview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mPreview.setClickable(false);
         mPreview.setSurfaceTextureListener(this);
-
-		mHolder.addCallback(this);
         attachView();
     }
 
@@ -278,13 +274,13 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
         if (mCamera != null && this.mRecordingState != RecordingState.STARTED) {
             try {
                 Log.d(TAG, "setPreviewTexture");
-                mCamera.setPreviewTexture(surface);       
+                mCamera.setPreviewTexture(surface);      
                 
             } catch (IOException e) {
                 Log.e(TAG, "Unable to attach preview to camera!", e);
             }
-            Log.d(TAG, "startPreview");                    
-			mCamera.startPreview();
+            Log.d(TAG, "startPreview");
+            mCamera.startPreview();
         } else {
             if (mCamera == null) {
                 Log.e(TAG, "mCamera == null");
@@ -319,7 +315,8 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-      mCamera.setPreviewCallback(new PreviewCallback() {
+        try{
+               mCamera.setPreviewCallback(new PreviewCallback() {
 
 			@Override
 			public void onPreviewFrame(byte[] data, Camera camera) {
@@ -354,21 +351,10 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 			}
 
 		});
+        }
+        catch(Exception e)
+        {}
     }
-    public void surfaceCreated(SurfaceHolder holder) {
-		if (mCamera == null) {
-			return;
-		}
-		// The Surface has been created, now tell the camera where to draw the
-		// preview
-	}
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        
-    }
-
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		// empty. Take care of releasing the Camera preview in your activity.        
-	}
 
     private enum RecordingState {INITIALIZING, STARTED, STOPPED}
 }
