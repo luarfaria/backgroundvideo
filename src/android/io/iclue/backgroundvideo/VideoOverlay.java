@@ -293,12 +293,17 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
 				 YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,
 				 width, height, null);
 				 i++;
-				 Rect rectangle = new Rect(0, 0, width, height);			
+				 Rect rectangle = new Rect(0, 0, width, height);	
+                try{
                 File file = new File(mFilePath.replace(".mp4", Integer.toString(i) + ".jpg"));
                 FileOutputStream output = new FileOutputStream(file);
 				 yuvImage.compressToJpeg(rectangle, 100, output);
 				    output.flush();
                   output.close();
+                }
+                catch (Exception e){
+                     Log.e(TAG, "Unable to attach preview to camera!", e);
+                }
 			}
 
 		});
