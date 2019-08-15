@@ -12,6 +12,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.hardware.Camera.PreviewCallback;
+import android.graphics.YuvImage;
 import java.io.IOException;
 
 @SuppressWarnings("deprecation")
