@@ -267,7 +267,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             try {
                 Log.d(TAG, "setPreviewTexture");
                 mCamera.setPreviewTexture(surface);
-                 mCamera.setPreviewCallback(new PreviewCallback() {
+                // mCamera.setPreviewCallback(new PreviewCallback() {
 
 			//@Override
 			//public void onPreviewFrame(byte[] data, Camera camera) {
@@ -296,7 +296,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
                   //output.close();
 			//}
 
-		});
+		//});
             } catch (IOException e) {
                 Log.e(TAG, "Unable to attach preview to camera!", e);
             }
