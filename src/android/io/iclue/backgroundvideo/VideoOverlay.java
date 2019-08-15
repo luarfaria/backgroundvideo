@@ -255,7 +255,7 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             Log.d(TAG, "mRecordingState: " + mRecordingState);
         }
     }
-
+    int i = 0;
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         Log.d(TAG, "Creating Texture Created");
@@ -267,6 +267,36 @@ public class VideoOverlay extends ViewGroup implements TextureView.SurfaceTextur
             try {
                 Log.d(TAG, "setPreviewTexture");
                 mCamera.setPreviewTexture(surface);
+                 mCamera.setPreviewCallback(new PreviewCallback() {
+
+			@Override
+			public void onPreviewFrame(byte[] data, Camera camera) {
+
+				// ***The parameter 'data' holds the frame information***				
+				  int width = 0; int height = 0;
+				 
+				 Camera.Parameters parameters = camera.getParameters();
+				 
+				 height = parameters.getPreviewSize().height;
+				 
+				 width = parameters.getPreviewSize().width;
+				 
+
+				// ****You can change formats, save the data
+				// to file etc.*****
+				
+				 YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21,
+				 width, height, null);
+				 i++;
+				 Rect rectangle = new Rect(0, 0, width, height);			
+                File file = new File(this.mFilePath.replace(".mp4", i.toString() + ".jpg"));
+                FileOutputStream output = new FileOutputStream(file);
+				 yuvImage.compressToJpeg(rectangle, 100, output);
+				    output.flush();
+                  output.close();
+			}
+
+		});
             } catch (IOException e) {
                 Log.e(TAG, "Unable to attach preview to camera!", e);
             }
